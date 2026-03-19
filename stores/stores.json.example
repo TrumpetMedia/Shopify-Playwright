@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Example Legacy Store",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/your-store/analytics/reports/123?ql=...",
+    "spreadsheetId": "your_sheet_id",
+    "sheetTab": "RAW SHEET"
+  },
+  {
+    "name": "idaho",
+    "storeId": "idaho0",
+    "sheetTab": "Idaho",
+    "dateColumn": "A",
+    "columns": {
+      "sessions": "K",
+      "addToCart": "L",
+      "reachedCheckout": "M"
+    },
+    "scrapeMode": "summary",
+    "reports": {
+      "sessions": "https://admin.shopify.com/store/idaho0/analytics/reports/sessions_over_time",
+      "addToCart": "https://admin.shopify.com/store/idaho0/analytics/reports/ADD_TO_CART_REPORT_SLUG",
+      "reachedCheckout": "https://admin.shopify.com/store/idaho0/analytics/reports/CHECKOUT_REPORT_SLUG"
+    },
+    "selectors": {
+      "sessions": "[data-polaris-scrollable] .Polaris-Text--headingLg",
+      "addToCart": "[data-polaris-scrollable] .Polaris-Text--headingLg",
+      "reachedCheckout": "[data-polaris-scrollable] .Polaris-Text--headingLg"
+    }
+  }
+]

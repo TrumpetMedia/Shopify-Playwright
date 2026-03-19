@@ -1,0 +1,25 @@
+{
+  "name": "shopify-playwright-automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "login": "node index.js login",
+    "run": "node index.js run",
+    "run:headed": "node scripts/run-headed.js",
+    "check-session": "node index.js check-session",
+    "unlock-profile": "node scripts/unlock-profile.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dayjs": "^1.11.20",
+    "dotenv": "^17.3.1",
+    "googleapis": "^171.4.0",
+    "playwright": "^1.58.2",
+    "winston": "^3.19.0"
+  }
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Jaipur Trendz",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/jaipurtrendzbyruchita/analytics/reports/264307008?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WHERE+human_or_bot_session+IN+%28%27human%27%2C+%27bot%27%29%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1LBYXG9N4CQNb8hXf6-hzbvWyOW5OXEOOAsBiJR2zpus",
+    "sheetTab": "RAW SHEET"
+  }
+]

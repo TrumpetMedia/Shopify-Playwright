@@ -1,0 +1,12 @@
+node_modules/
+.env
+# Never commit the real browser profile (session data)
+profiles/main/**
+!profiles/main/.gitkeep
+logs/**/*
+!logs/.gitkeep
+*.lock
+credentials.json
+token.json
+*-credentials.json
+service-account*.json
