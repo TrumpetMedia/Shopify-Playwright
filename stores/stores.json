@@ -5,5 +5,159 @@
     "reportUrl": "https://admin.shopify.com/store/jaipurtrendzbyruchita/analytics/reports/264307008?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WHERE+human_or_bot_session+IN+%28%27human%27%2C+%27bot%27%29%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
     "spreadsheetId": "1LBYXG9N4CQNb8hXf6-hzbvWyOW5OXEOOAsBiJR2zpus",
     "sheetTab": "RAW SHEET"
+  },
+  {
+    "name": "Grey dot Jaipur",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/thegreydotjaipur/analytics/reports/179765527?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WHERE+human_or_bot_session+IN+%28%27human%27%2C+%27bot%27%29%0A++DURING+yesterday%0A++ORDER+BY+online_store_visitors+DESC%0A++LIMIT+1000%0AVISUALIZE+online_store_visitors+TYPE+line",
+    "spreadsheetId": "1_9NOSfmIXNPXu5DUUusWw-pL0W46KJMXeUFffFKY5E0",
+    "sheetTab": "Copy of RAW SHEET"
+  },
+  {
+    "name": "Saltwise",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/saltwise/analytics/reports/215908654?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WHERE+human_or_bot_session+IN+%28%27human%27%2C+%27bot%27%29%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1r6kyoW8p4WwdoHCREW_oxV8CQS82kyuhDpkta_h_QJQ",
+    "sheetTab": "Copy of RAW SHEET"
+  },
+  {
+    "name": "Eri Silvers",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/erisilvers/analytics/reports/223871268?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WHERE+human_or_bot_session+IN+%28%27human%27%2C+%27bot%27%29%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1IXy3I_QmwximFLrsnlNNNV_eHMErlaIX_jEyXqDE1-Y",
+    "sheetTab": "RAW SHEET"
+  },
+  {
+    "name": "Palla Jaipur",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/palla-jaipur/analytics/reports/185958701?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WITH+CURRENCY+%27INR%27%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1zkxiOHXjrd35kzyMkq56lR7fVCTkIs74BhQ8BzObhZA",
+    "sheetTab": "Copy of RAW SHEET"
+  },
+  {
+    "name": "Baise Gaba Domestic",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/baise-gaba-official/analytics/reports/148078831?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WITH+CURRENCY+%27INR%27%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+online_store_visitors+TYPE+line",
+    "spreadsheetId": "1x3M5tLJ1fy5Y7-zs757oC4B2hR-zuoAVOgKD5kwtrVo",
+    "sheetTab": "Copy of RAW SHEET-domestic"
+  },
+  {
+    "name": "Bunafira",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/buna-fira/analytics/reports/189071581?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WITH+CURRENCY+%27INR%27%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1CWMFf_1Fs3ZAZ3mPIPDtZ4ge2j6ZMo2J1Ym8n-UOkAc",
+    "sheetTab": "Copy of RAW SHEET"
+  },
+  {
+    "name": "Kala Kasuti",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/kalakasuti/analytics/reports/279708011?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WITH+CURRENCY+%27INR%27%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1OPxHOQW_KML2xLSdHzjpzJ8ze1CNisjwzdRd_buYY8Q",
+    "sheetTab": "Copy of RAW SHEET"
+  },
+  {
+    "name": "Beyond bound",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/beyond-bound/analytics/reports/210960675?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1HTCWft08jqtoJuKnG6vzu0gcmLBqgopJ242r_IOXkOE",
+    "sheetTab": "Copy of Raw Brand Meta IND"
+  },
+  {
+    "name": "Home ecstasy",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/homeecstasy/analytics/reports/165019942?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WITH+CURRENCY+%27INR%27%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1t2L51XXNYQXez2Alz1bbbsiDf6ioXQA08EzDJDaIV3U",
+    "sheetTab": "Copy of Raw Brand Meta IND"
+  },
+  {
+    "name": "Curated Curiosities",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/curated-curiosities-mk/analytics/reports/228655266?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WITH+CURRENCY+%27INR%27%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1cuLa60qQbkaGPPf4LKx0A6b6bqkkDFoK6tV4gqV0aPE",
+    "sheetTab": "Copy of RAW SHEET"
+  },
+  {
+    "name": "Anayna",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/anayna-india/analytics/reports/140968252?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1TBqdT0lTxpVMU8FXRLyBcC4Dcn2jfSTMoGA0EnPaNRM",
+    "sheetTab": "Copy of RAW SHEET"
+  },
+  {
+    "name": "Pinkcactii-domestic",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/pinkcactii/analytics/reports/181502166?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WHERE+session_country+%3D+%27India%27%0A++WITH+CURRENCY+%27INR%27%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1KR9E8S_bg6IsFXoMITAGm3rmXKMFV0o2DGLIb_wi2IA",
+    "sheetTab": "Copy of Raw sheet dom"
+  },
+  {
+    "name": "Pinkcactii-international",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/pinkcactii/analytics/reports/185925846?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WHERE+session_country+%21%3D+%27India%27%0A++WITH+CURRENCY+%27INR%27%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1KR9E8S_bg6IsFXoMITAGm3rmXKMFV0o2DGLIb_wi2IA",
+    "sheetTab": "Copy of Raw international"
+  },
+  {
+    "name": "Monk and Mei",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/monkandme/analytics/reports/150470896?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WHERE+session_country+%3D+%27India%27%0A++WITH+CURRENCY+%27INR%27%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1bf7Slz9hoDBeMyDnvtSs6ZE2aSIFL4xew1Zi8hEXAnU",
+    "sheetTab": "Copy of RAW SHEET"
+  },
+  {
+    "name": "Monk and Mei-INT",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/monkandme/analytics/reports/171213040?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WHERE+session_country+%21%3D+%27India%27%0A++WITH+CURRENCY+%27INR%27%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1bf7Slz9hoDBeMyDnvtSs6ZE2aSIFL4xew1Zi8hEXAnU",
+    "sheetTab": "Copy of INTL_Raw_Sheet"
+  },
+  {
+    "name": "Rehmat Ethnics",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/rehmat-ethnics/analytics/reports/182714615?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WITH+CURRENCY+%27INR%27%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1UYPszwfJvRYeV2beJ-lU57cmqJw0kFYywcSLaeVu-YQ",
+    "sheetTab": "Copy of RAW SHEET"
+  },
+  {
+    "name": "Desert Lady India",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/desert-lady-india/analytics/reports/158761201?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "1jhaADetP7CxiYCUnHQC_8JGOA26_2M9HTGNyVrw6904",
+    "sheetTab": "Copy of RAW SHEET"
+  },
+  {
+    "name": "Baise Gaba International",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/baise-gaba-int/analytics/reports/137920564?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++SINCE+yesterday+UNTIL+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line&country=IN",
+    "spreadsheetId": "1x3M5tLJ1fy5Y7-zs757oC4B2hR-zuoAVOgKD5kwtrVo",
+    "sheetTab": "Copy of  RAW SHEET-international"
+  },
+  {
+    "name": "Tashi Jaipur",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/tashi-jaipur/analytics/reports/157515912?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "10m3cWiGG46YnYTjUmKGE2Cxx1AoL7FMRt_2_cekkrL0",
+    "sheetTab": "Copy of Raw Sheet"
+  },
+  {
+    "name": "FSJ Domestic",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/finesilverjewels/analytics/reports/160071990?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WHERE+session_country+%3D+%27India%27%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "11hUdnywCLoBVtBhMKJT86fXv3jjS1T8gjyy8Qu1ix_c",
+    "sheetTab": "CopyRaw"
+  },
+  {
+    "name": "FSJ International",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/finesilverjewels/analytics/reports/160104758?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++WHERE+session_country+%21%3D+%27India%27%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "11hUdnywCLoBVtBhMKJT86fXv3jjS1T8gjyy8Qu1ix_c",
+    "sheetTab": "Copy of RAW INTL"
+  },
+  {
+    "name": "Taru Jaipur",
+    "scrapeMode": "legacy_shopify_table",
+    "reportUrl": "https://admin.shopify.com/store/tarujaipur/analytics/reports/185794618?ql=FROM+sessions%0A++SHOW+online_store_visitors%2C+sessions%2C+sessions_that_reached_checkout%2C%0A++++sessions_with_cart_additions%0A++DURING+yesterday%0A++ORDER+BY+sessions+DESC%0A++LIMIT+1000%0AVISUALIZE+sessions+TYPE+line",
+    "spreadsheetId": "105BXVZkhsU86aLvXy7GYvr_30VHyid8qfHHPMyaFuRs",
+    "sheetTab": "Copy of Raw Sheet"
   }
 ]
