@@ -7,6 +7,7 @@ async function withRetry(fn, opts = {}) {
   const retries = opts.retries ?? 3;
   const delayMs = opts.delayMs ?? 2000;
   const factor = opts.factor ?? 1.5;
+  const noRetryCodes = Array.isArray(opts.noRetryCodes) ? opts.noRetryCodes : [];
   let lastErr;
   let wait = delayMs;
 
@@ -15,6 +16,9 @@ async function withRetry(fn, opts = {}) {
       return await fn();
     } catch (err) {
       lastErr = err;
+      if (err && err.code && noRetryCodes.includes(err.code)) {
+        throw err;
+      }
       if (attempt === retries) break;
       if (typeof opts.onRetry === 'function') {
         opts.onRetry(err, attempt);

@@ -12,6 +12,19 @@ const STEALTHISH_ARGS = [
 ];
 
 /**
+ * Optional extra flags from .env (space-separated), e.g. on Linux VPS if Chromium
+ * crashes with SIGTRAP: --disable-gpu --disable-software-rasterizer --disable-crash-reporter
+ */
+function parseExtraChromiumArgs() {
+  const raw = process.env.PLAYWRIGHT_CHROMIUM_ARGS || '';
+  if (!raw.trim()) return [];
+  return raw
+    .split(/\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+/**
  * @param {string} profileDir Absolute path to user data dir (persistent profile)
  * @param {{ headless: boolean }} options
  */
@@ -20,7 +33,7 @@ async function launchPersistentContext(profileDir, { headless }) {
     headless,
     // Removes "--enable-automation" so the browser looks more like a normal install.
     ignoreDefaultArgs: ['--enable-automation'],
-    args: STEALTHISH_ARGS,
+    args: [...STEALTHISH_ARGS, ...parseExtraChromiumArgs()],
     // Sensible default; some login UIs misbehave on tiny default viewports.
     viewport: { width: 1365, height: 900 },
   };

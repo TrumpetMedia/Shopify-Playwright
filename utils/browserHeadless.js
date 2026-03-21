@@ -7,6 +7,11 @@ function browserHeadless() {
   if (v === '1' || v === 'true' || v === 'yes') {
     return false;
   }
+  const mode = String(process.env.HEADLESS_MODE || '').toLowerCase();
+  if (mode === 'shell') {
+    // Playwright-supported headless mode that uses chromium-headless-shell.
+    return 'shell';
+  }
   return true;
 }
 

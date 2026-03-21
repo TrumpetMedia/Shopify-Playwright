@@ -173,6 +173,17 @@ async function cmdRun() {
       logger.info('Visible browser (HEADFUL_RUN) — you should see Chrome during this run.');
     }
     context = await launchPersistentContext(profileDir, { headless });
+    // Mitigate basic automation detection differences between headful and headless.
+    // (Legacy Puppeteer code used evaluateOnNewDocument to override navigator.webdriver.)
+    context.addInitScript(() => {
+      try {
+        Object.defineProperty(navigator, 'webdriver', { get: () => false });
+      } catch { }
+      try {
+        // Some sites check presence of chrome runtime object.
+        window.chrome = window.chrome || { runtime: {} };
+      } catch { }
+    });
     const sheets = await getSheetsClient();
     const pages = context.pages();
     const page = pages.length ? pages[0] : await context.newPage();
@@ -223,15 +234,28 @@ async function cmdRun() {
         const legacyDelay = Number(process.env.LEGACY_POST_LOAD_DELAY_MS || 9000);
         try {
           metrics = await withRetry(
-            () =>
-              scrapeLegacyShopifyAnalyticsTable(page, {
-                url: store.reportUrl,
-                navigationTimeoutMs,
-                postLoadDelayMs: legacyDelay,
-              }),
+            async () => {
+              // Re-create a fresh page per retry to avoid "page/context/browser closed"
+              // cascading from a timed-out attempt.
+              const attemptPage = await context.newPage();
+              try {
+                return await scrapeLegacyShopifyAnalyticsTable(attemptPage, {
+                  url: store.reportUrl,
+                  navigationTimeoutMs,
+                  postLoadDelayMs: legacyDelay,
+                });
+              } finally {
+                try {
+                  await attemptPage.close({ runBeforeUnload: false });
+                } catch {
+                  // ignore cleanup errors
+                }
+              }
+            },
             {
               retries: scrapeRetries,
               delayMs: 2000,
+              noRetryCodes: ['CLOUDFLARE_CHALLENGE'],
               onRetry: (err, attempt) => {
                 logger.warn(`Retry ${attempt} for ${store.name} (legacy table): ${err.message}`);
               },
@@ -240,6 +264,10 @@ async function cmdRun() {
           logger.info(`  sessions: ${metrics.sessions}, addToCart: ${metrics.addToCart}, reachedCheckout: ${metrics.reachedCheckout}`);
         } catch (err) {
           if (err.code === 'LOGIN_REQUIRED') {
+            logger.error(err.message);
+            throw err;
+          }
+          if (err.code === 'CLOUDFLARE_CHALLENGE') {
             logger.error(err.message);
             throw err;
           }

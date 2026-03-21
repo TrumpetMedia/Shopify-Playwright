@@ -2,6 +2,8 @@ const { assertNotLoggedOut } = require('../utils/loginDetection');
 const { parseMetricText } = require('../utils/numberParse');
 const { sleep } = require('../utils/retry');
 const { logger } = require('../utils/logger');
+const fs = require('fs');
+const path = require('path');
 
 /**
  * Same layout as legacy Puppeteer scraper: div[role="table"], data on row index 1,
@@ -27,6 +29,18 @@ async function scrapeLegacyShopifyAnalyticsTable(page, opts) {
     addToCart: 3,
   };
 
+  // Match the legacy Puppeteer scraper environment (stable desktop UA + viewport).
+  // This often reduces Shopify/Polaris rendering differences in headless mode.
+  try {
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
+    );
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    await page.setExtraHTTPHeaders({ 'Accept-Language': 'en-US,en;q=0.9' });
+  } catch {
+    // ignore capability differences; scraping will still try
+  }
+
   logger.info('  [scrape] Navigating to report…');
   await page.goto(opts.url, {
     waitUntil: 'domcontentloaded',
@@ -36,15 +50,117 @@ async function scrapeLegacyShopifyAnalyticsTable(page, opts) {
   // Shopify admin never reaches "networkidle" reliably — do not wait on it (was causing long stalls).
   await assertNotLoggedOut(page);
 
+  // Best-effort settle: give the client-side report renderer a short window.
+  // If it never becomes idle, we continue to avoid long stalls.
+  await page.waitForLoadState('networkidle', { timeout: 20000 }).catch(() => { });
+
+  // Small additional delay before waiting for the analytics table node.
+  await sleep(1500);
+
+  // Cloudflare / bot interstitials often show up only in headless mode.
+  // If we detect the challenge page, stop immediately so we can be instructed to run `npm run run:headed`.
+  try {
+    const bodyText = await page.locator('body').innerText({ timeout: 5000 }).catch(() => '');
+    const t = String(bodyText).toLowerCase();
+    if (
+      t.includes('verify you are human') ||
+      t.includes('cloudflare') ||
+      (t.includes('your connection needs to be verified') && t.includes('proceed')) ||
+      (t.includes('turnstile') && t.includes('cloudflare'))
+    ) {
+      const err = new Error(
+        'Cloudflare verification challenge detected in headless mode. Run with a visible browser (set HEADFUL_RUN=1 or use npm run run:headed) to clear the challenge, then retry headless.'
+      );
+      err.code = 'CLOUDFLARE_CHALLENGE';
+      throw err;
+    }
+  } catch {
+    // ignore detection failures; proceed with table scrape
+  }
+
   logger.info('  [scrape] Waiting for analytics table (div[role="table"])…');
-  await page.waitForSelector('div[role="table"]', {
-    timeout: navigationTimeoutMs,
-  });
+  // In headless mode, Shopify sometimes renders the table in an iframe.
+  // Search across frames, then run extraction inside the correct frame.
+  let tableFrame = null;
+  const frames = page.frames();
+
+  // Try main frame first.
+  const main = page.mainFrame();
+  try {
+    await main.locator('div[role="table"]').first().waitFor({
+      state: 'attached',
+      timeout: Math.min(30000, navigationTimeoutMs),
+    });
+    await main.locator('div[role="table"] div[role="row"]').first().waitFor({
+      state: 'attached',
+      timeout: Math.min(30000, navigationTimeoutMs),
+    });
+    tableFrame = main;
+  } catch {
+    // fall through to scanning other frames
+  }
+
+  if (!tableFrame) {
+    for (const f of frames) {
+      if (!f || f === main) continue;
+      try {
+        await f.locator('div[role="table"]').first().waitFor({
+          state: 'attached',
+          timeout: Math.min(30000, navigationTimeoutMs),
+        });
+        await f.locator('div[role="table"] div[role="row"]').first().waitFor({
+          state: 'attached',
+          timeout: Math.min(30000, navigationTimeoutMs),
+        });
+        tableFrame = f;
+        break;
+      } catch {
+        // try next frame
+      }
+    }
+  }
+
+  if (!tableFrame) {
+    // Diagnostics: headless-only failures often mean bot/CAPTCHA interstitials
+    // where the analytics table never renders.
+    try {
+      const shotsDir = path.join(__dirname, '..', 'logs', 'screenshots');
+      fs.mkdirSync(shotsDir, { recursive: true });
+      const ts = new Date().toISOString().replace(/[:.]/g, '-');
+      const urlBase = String(page.url())
+        .slice(0, 80)
+        .replace(/[^a-z0-9]+/gi, '_');
+      const out = path.join(shotsDir, `table_not_found_${ts}_${urlBase}.png`);
+      await page.screenshot({ path: out, fullPage: true });
+      logger.error(`  [scrape] Screenshot saved: ${out}`);
+    } catch {
+      // ignore screenshot errors
+    }
+
+    try {
+      const bodyText = await page.locator('body').innerText().catch(() => '');
+      const s = bodyText.toLowerCase();
+      if (
+        s.includes('captcha') ||
+        s.includes('verify') ||
+        s.includes('unusual') ||
+        s.includes('robot') ||
+        s.includes('security') ||
+        s.includes('sorry')
+      ) {
+        throw new Error('Legacy scrape failed: Shopify likely served a bot/CAPTCHA interstitial in headless mode.');
+      }
+    } catch {
+      // ignore detection errors; keep original failure below
+    }
+
+    throw new Error('Legacy scrape failed: div[role="table"] not found in any frame');
+  }
 
   logger.info(`  [scrape] Table found; waiting ${postLoadDelayMs}ms for numbers to settle…`);
   await sleep(postLoadDelayMs);
 
-  const raw = await page.evaluate(
+  const raw = await tableFrame.evaluate(
     ({ dataRowIndex: rowIdx, cellIndexByMetric: ci }) => {
       const table = document.querySelector('div[role="table"]');
       if (!table) return { error: 'no_table' };
