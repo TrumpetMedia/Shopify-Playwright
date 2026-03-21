@@ -76,7 +76,7 @@ Re-authorize Google if `token.json` is old: use the legacy scraper’s auth flow
    PLAYWRIGHT_CHANNEL=chrome xvfb-run -a -s "-screen 0 1920x1080x24" npm run login
    ```
 
-   Or: `npm run login:xvfb` (runs `xvfb-run … node index.js login`). You still won’t see the browser over SSH unless you use **VNC/noVNC**; for a blind login, copy `profiles/main` from a machine where you already ran `npm run login`, or attach VNC to the Xvfb display.
+   Or: `npm run login:xvfb` (runs `xvfb-run … node index.js login`). **To see Chrome on the VPS**, use **VNC + Xvfb** — see **[docs/VPS-VNC-LOGIN.md](docs/VPS-VNC-LOGIN.md)** and `scripts/vps-start-vnc.sh`.
 
    **`Profile lock exists … .scraper.lock`** — the previous run exited without cleanup (closed terminal, killed Node, or closed the browser before pressing Enter). Run `npm run unlock-profile`, or the next run will auto-remove the lock if that old process is no longer running.
 
