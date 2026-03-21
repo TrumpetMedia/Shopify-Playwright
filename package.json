@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "login": "node index.js login",
+    "login:xvfb": "xvfb-run -a -s \"-screen 0 1920x1080x24\" node index.js login",
     "run": "node index.js run",
     "run:headed": "node scripts/run-headed.js",
     "check-session": "node index.js check-session",

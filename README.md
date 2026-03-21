@@ -69,6 +69,15 @@ Re-authorize Google if `token.json` is old: use the legacy scraper’s auth flow
 
    Sign in to Shopify in the opened window. When the admin is usable, press **Enter** in the terminal. The profile under `profiles/main` is saved.
 
+   **Linux VPS (no monitor):** headed Chrome needs a virtual display or you get *Missing X server or $DISPLAY*. Use the same pattern as `npm run run`:
+
+   ```bash
+   export LIBGL_ALWAYS_SOFTWARE=1
+   PLAYWRIGHT_CHANNEL=chrome xvfb-run -a -s "-screen 0 1920x1080x24" npm run login
+   ```
+
+   Or: `npm run login:xvfb` (runs `xvfb-run … node index.js login`). You still won’t see the browser over SSH unless you use **VNC/noVNC**; for a blind login, copy `profiles/main` from a machine where you already ran `npm run login`, or attach VNC to the Xvfb display.
+
    **`Profile lock exists … .scraper.lock`** — the previous run exited without cleanup (closed terminal, killed Node, or closed the browser before pressing Enter). Run `npm run unlock-profile`, or the next run will auto-remove the lock if that old process is no longer running.
 
    **Login stuck after entering email (no password page)?** This is usually automation detection against Playwright’s **bundled Chromium**. Fix:
