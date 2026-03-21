@@ -165,6 +165,8 @@ Set `TZ` to your reporting timezone. For **headful** daily runs, wrap the same `
 15 6 * * * cd /opt/Shopify-Playwright && set -a && . ./.env && set +a && /usr/bin/xvfb-run -a -s "-screen 0 1920x1080x24" /usr/bin/npm run run >> /opt/Shopify-Playwright/logs/cron.log 2>&1
 ```
 
+**Twice daily at fixed IST times (e.g. 10:30 and 13:00)** — see **[docs/CRON-VPS-IST.md](docs/CRON-VPS-IST.md)** (`CRON_TZ=Asia/Kolkata` + `flock`).
+
 ## Failure handling
 
 | Situation | Behavior |
