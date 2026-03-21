@@ -7,7 +7,7 @@ Automates **Shopify Admin** analytics metrics (Sessions, Add to cart, Reached ch
 - **One machine / one IP** — same VPS, same profile directory.
 - **Do not log in on every run** — session lives in the profile; refresh with `npm run login` when Shopify expires the session.
 - **No concurrent runs** — a lock file prevents two processes from using the same profile.
-- **Headful vs headless** — set `HEADFUL_RUN=1` in `.env` (or run `npm run run:headed`) to **watch Chrome** during `npm run run`. On a VPS cron, omit `HEADFUL_RUN` or set `HEADFUL_RUN=0` for headless.
+- **Headful vs headless** — set `HEADFUL_RUN=1` in `.env` (or run `npm run run:headed`) to **watch Chrome** during `npm run run`. **Cloudflare / “verify human”** usually requires a **headed** browser, so on a **VPS** use **headful + Xvfb** (see [VPS headful (Xvfb)](#vps-headful-xvfb)). Only use plain headless if the site allows it.
 
 ## Layout
 
@@ -123,12 +123,37 @@ Use when the report is a **table** and you need the cell on the row for `TARGET_
 }
 ```
 
+## VPS headful (Xvfb)
+
+Headless runs are often blocked by **Cloudflare** or similar. On Linux servers there is no real monitor, so use **Xvfb** (virtual framebuffer) — it’s still a **headed** Chromium process (not `headless: true`), which behaves much closer to a desktop browser.
+
+**Dependencies (once per server):**
+
+```bash
+sudo apt update && sudo apt install -y xvfb
+cd /path/to/project && npx playwright install-deps chromium
+```
+
+**Why Chromium sometimes crashed with `SIGTRAP`:** Playwright’s default `--enable-unsafe-swiftshader` can conflict with GPU-off / virtual-display setups. This project **strips that default** on **Linux + headful** and adds `--ozone-platform=x11`, `--disable-gpu`, and `--disable-software-rasterizer` (unless you set `PLAYWRIGHT_LINUX_HEADFUL_EXTRA=0`).
+
+**Run (example):**
+
+```bash
+cd /opt/Shopify-Playwright
+export LIBGL_ALWAYS_SOFTWARE=1
+HEADFUL_RUN=1 PLAYWRIGHT_CHANNEL=chromium xvfb-run -a -s "-screen 0 1920x1080x24" npm run run
+```
+
+Optional extra flags in `.env`: `PLAYWRIGHT_CHROMIUM_ARGS=--disable-crash-reporter` (space-separated list).
+
+**If the browser still exits immediately:** install **Google Chrome** (`google-chrome-stable`), set `PLAYWRIGHT_CHANNEL=chrome`, and run `npx playwright install chrome`.
+
 ## Cron (VPS)
 
-Set `TZ` to your reporting timezone. Example daily at 6:15:
+Set `TZ` to your reporting timezone. For **headful** daily runs, wrap the same `xvfb-run ... npm run run` command you use manually (do **not** use bare `npm run run` without Xvfb if you rely on headed mode). Example daily at 6:15:
 
 ```cron
-15 6 * * * cd /opt/shopify-playwright-automation && /usr/bin/npm run run >> /opt/shopify-playwright-automation/logs/cron.log 2>&1
+15 6 * * * cd /opt/Shopify-Playwright && set -a && . ./.env && set +a && /usr/bin/xvfb-run -a -s "-screen 0 1920x1080x24" /usr/bin/npm run run >> /opt/Shopify-Playwright/logs/cron.log 2>&1
 ```
 
 ## Failure handling

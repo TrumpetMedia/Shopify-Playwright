@@ -25,15 +25,44 @@ function parseExtraChromiumArgs() {
 }
 
 /**
+ * Linux + headful (e.g. Xvfb on a VPS): Playwright injects `--enable-unsafe-swiftshader` by default.
+ * Together with `--disable-gpu` / virtual display that often triggers immediate Chromium SIGTRAP.
+ * Stripping that default fixes many "headful works nowhere" VPS setups.
+ */
+function linuxHeadfulStabilityArgs() {
+  if (process.env.PLAYWRIGHT_LINUX_HEADFUL_EXTRA === '0') {
+    return [];
+  }
+  return [
+    // Virtual framebuffer (Xvfb) is X11; be explicit so Ozone doesn't pick a bad backend.
+    '--ozone-platform=x11',
+    // Software-only rendering on servers (safe with Xvfb).
+    '--disable-gpu',
+    '--disable-software-rasterizer',
+  ];
+}
+
+/**
  * @param {string} profileDir Absolute path to user data dir (persistent profile)
- * @param {{ headless: boolean }} options
+ * @param {{ headless: boolean | 'shell' }} options
  */
 async function launchPersistentContext(profileDir, { headless }) {
+  const ignoreDefaultArgs = ['--enable-automation'];
+
+  // Headful Linux (Xvfb): drop SwiftShader enable — conflicts with disable-gpu / headful GPU path.
+  if (process.platform === 'linux' && headless === false) {
+    ignoreDefaultArgs.push('--enable-unsafe-swiftshader');
+  }
+
+  const args = [...STEALTHISH_ARGS, ...parseExtraChromiumArgs()];
+  if (process.platform === 'linux' && headless === false) {
+    args.push(...linuxHeadfulStabilityArgs());
+  }
+
   const launchOpts = {
     headless,
-    // Removes "--enable-automation" so the browser looks more like a normal install.
-    ignoreDefaultArgs: ['--enable-automation'],
-    args: [...STEALTHISH_ARGS, ...parseExtraChromiumArgs()],
+    ignoreDefaultArgs,
+    args,
     // Sensible default; some login UIs misbehave on tiny default viewports.
     viewport: { width: 1365, height: 900 },
   };
