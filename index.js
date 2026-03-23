@@ -35,6 +35,7 @@ const { acquireProfileLock, releaseProfileLock } = require('./utils/lock');
 const { withRetry } = require('./utils/retry');
 const { assertNotLoggedOut } = require('./utils/loginDetection');
 const { browserHeadless } = require('./utils/browserHeadless');
+const { sendRunReportEmailIfEnabled } = require('./services/emailReport');
 
 const START_URL = process.env.LOGIN_START_URL || 'https://admin.shopify.com/store';
 
@@ -158,15 +159,17 @@ async function scrapeMetricForStore(page, store, metricKey, targetDateIso) {
 
 async function cmdRun() {
   const profileDir = getProfileDir();
-  const stores = loadStores();
-  assertSpreadsheetConfigured(stores);
-
   const targetDateIso = getTargetDateIso(envTargetDate);
-  logger.info(`Target date (sheet match): ${targetDateIso}${sheetDateTz ? ` (TZ: ${sheetDateTz})` : ''}`);
-
+  let report = { outcome: 'error', detail: 'Run did not complete' };
   let lockPath;
   let context;
+
   try {
+    const stores = loadStores();
+    assertSpreadsheetConfigured(stores);
+
+    logger.info(`Target date (sheet match): ${targetDateIso}${sheetDateTz ? ` (TZ: ${sheetDateTz})` : ''}`);
+
     lockPath = acquireProfileLock(profileDir);
     const headless = browserHeadless();
     if (!headless) {
@@ -314,12 +317,18 @@ async function cmdRun() {
     if (anyStoreScrapeFailed) {
       logger.error('Run finished with one or more store scrape failures (see log).');
       process.exitCode = 1;
+      report = { outcome: 'partial' };
     } else {
       logger.info('Run completed successfully.');
+      report = { outcome: 'success' };
     }
+  } catch (e) {
+    report = { outcome: 'error', error: e.message, code: e.code };
+    throw e;
   } finally {
     releaseProfileLock(lockPath);
     if (context) await context.close();
+    await sendRunReportEmailIfEnabled({ ...report, targetDateIso });
   }
 }
 

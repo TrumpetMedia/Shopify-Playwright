@@ -98,6 +98,28 @@ Re-authorize Google if `token.json` is old: use the legacy scraper’s auth flow
    npm run run
    ```
 
+## Email report after each run (optional)
+
+To get a **daily email** when cron (or you) finishes `npm run run`—with **OK / PARTIAL / FAILED** in the subject and the **last ~400 lines** of `logs/run.log` in the body:
+
+1. `npm install` (adds **nodemailer**).
+2. In `.env`, set:
+
+   | Variable | Meaning |
+   |----------|---------|
+   | `EMAIL_ENABLED=1` | Turn on emails |
+   | `SMTP_HOST` | e.g. `smtp.gmail.com`, your host’s SMTP, or [Resend](https://resend.com/docs/send-with-nodejs) SMTP |
+   | `SMTP_PORT` | Usually `587` (STARTTLS) or `465` (SSL) |
+   | `SMTP_SECURE` | `1` for port 465; `0` or omit for 587 |
+   | `SMTP_USER` / `SMTP_PASS` | SMTP login (Gmail: use an [App Password](https://support.google.com/accounts/answer/185833), not your normal password) |
+   | `EMAIL_FROM` | From address (often same as `SMTP_USER`) |
+   | `EMAIL_TO` | Comma-separated recipients |
+   | `EMAIL_LOG_TAIL_LINES` | Optional; default `400` |
+
+3. Redeploy `.env` on the VPS and run a test: `npm run run`.
+
+**Note:** The email is sent in the `finally` block after the browser closes, so it runs for **success**, **partial failures**, and **thrown errors** (e.g. login required).
+
 ## Google Sheets behavior
 
 - **No new rows** — the script looks up the row where `dateColumn` equals the target date (default: **yesterday**). If no row exists, that store is **skipped** and logged.
